@@ -16,11 +16,7 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public Post Create(Post post) {
-
-        if(this.postRepository.findById(post.getId()).isPresent())
-            return null;
-        else
-            return this.postRepository.save(post);
+        return this.postRepository.save(post);
     }
 
     @Override
@@ -42,6 +38,7 @@ public class PostServiceImpl implements PostService {
         Post found = Read(post);
 
         if(found != null) {
+            found.setTitle(Optional.ofNullable(post.getTitle()).orElse(found.getTitle()));
             found.setContent(Optional.ofNullable(post.getContent()).orElse(found.getContent()));
             found.setPicturePath(Optional.ofNullable(post.getPicturePath()).orElse(found.getPicturePath()));
 

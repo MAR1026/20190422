@@ -17,6 +17,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public User Create(User user) {
 
+        System.out.println(user.getAccount());
+
         if(this.userRepository.findByAccount(user.getAccount()).isPresent())
             return null;
         else
@@ -25,7 +27,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User Read(User user) {
-        Optional<User> found = this.userRepository.findById(user.getId());
+        Optional<User> found = this.userRepository.findByAccount(user.getAccount());
         if(found.isPresent()){
             return found.get();
         } else

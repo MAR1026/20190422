@@ -19,15 +19,15 @@ public class PostController {
     }
 
     @GetMapping("/post/read")
-    public Post Read(Post post) { return this.postService.Read(post); }
+    public Post Read(@RequestBody Post post) { return this.postService.Read(post); }
 
     @PostMapping("/post/create")
-    public Post Create(Post post) { return this.postService.Create(post); }
+    public Post Create(@RequestBody Post post) { return this.postService.Create(post); }
 
     @PutMapping("/post/update")
-    public Post Update(Post post) { return this.postService.Update(post); }
+    public Post Update(@RequestBody Post post) { return this.postService.Update(post); }
 
     @DeleteMapping("/post/delete")
-    public boolean Delete(Post post) { return this.postService.Delete(post); }
+    public boolean Delete(@RequestBody Post post) { return this.postService.Delete(post); }
 
 }

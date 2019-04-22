@@ -19,15 +19,15 @@ public class UserController {
     }
 
     @GetMapping("/user/read")
-    public User Read(User user) { return this.userService.Read(user); }
+    public User Read(@RequestBody User user) { return this.userService.Read(user); }
 
     @PostMapping("/user/create")
-    public User Create(User user) { return this.userService.Create(user); }
+    public User Create(@RequestBody User user) { return this.userService.Create(user); }
 
     @PutMapping("/user/update")
-    public User Update(User user) { return this.userService.Update(user); }
+    public User Update(@RequestBody User user) { return this.userService.Update(user); }
 
     @DeleteMapping("/user/delete")
-    public boolean Delete(User user) { return this.userService.Delete(user); }
+    public boolean Delete(@RequestBody User user) { return this.userService.Delete(user); }
 
 }

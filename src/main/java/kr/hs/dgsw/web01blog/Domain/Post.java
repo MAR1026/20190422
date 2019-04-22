@@ -22,6 +22,9 @@ public class Post {
     private String account;
 
     @Column(nullable = false)
+    private String title;
+
+    @Column(nullable = false)
     private String content;
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
