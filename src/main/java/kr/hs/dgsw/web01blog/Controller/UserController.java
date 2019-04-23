@@ -1,6 +1,8 @@
 package kr.hs.dgsw.web01blog.Controller;
 
 import kr.hs.dgsw.web01blog.Domain.User;
+import kr.hs.dgsw.web01blog.Protocol.ResponseFormat;
+import kr.hs.dgsw.web01blog.Protocol.ResponseType;
 import kr.hs.dgsw.web01blog.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -14,20 +16,57 @@ public class UserController {
     private UserService userService;
 
     @GetMapping("/user/readall")
-    public List<User> ReadAll() {
-        return this.userService.ReadAll();
+    public ResponseFormat ReadAll() {
+        List<User> result = this.userService.ReadAll();
+        if(result != null) {
+            ResponseFormat responseFormat = new ResponseFormat(ResponseType.USER_GET, result);
+            return responseFormat;
+        }
+
+        return new ResponseFormat(ResponseType.FAIL, null);
     }
 
     @GetMapping("/user/read")
-    public User Read(@RequestBody User user) { return this.userService.Read(user); }
+    public ResponseFormat Read(@RequestBody User user) {
+        User result = this.userService.Read(user);
+        if(result != null) {
+            ResponseFormat responseFormat = new ResponseFormat(ResponseType.USER_GET, result, result.getId());
+            return responseFormat;
+        }
+        return new ResponseFormat(ResponseType.FAIL, null);
+    }
 
     @PostMapping("/user/create")
-    public User Create(@RequestBody User user) { return this.userService.Create(user); }
+    public ResponseFormat Create(@RequestBody User user) {
+
+        User result = this.userService.Create(user);
+        if(result != null) {
+            ResponseFormat responseFormat = new ResponseFormat(ResponseType.USER_ADD, result, result.getId());
+            return responseFormat;
+        }
+        return new ResponseFormat(ResponseType.FAIL, null);
+
+    }
 
     @PutMapping("/user/update")
-    public User Update(@RequestBody User user) { return this.userService.Update(user); }
+    public ResponseFormat Update(@RequestBody User user) {
+
+        User result = this.userService.Update(user);
+        if(result != null) {
+            ResponseFormat responseFormat = new ResponseFormat(ResponseType.USER_UPDATE, result, result.getId());
+            return responseFormat;
+        }
+        return new ResponseFormat(ResponseType.FAIL, null);
+    }
 
     @DeleteMapping("/user/delete")
-    public boolean Delete(@RequestBody User user) { return this.userService.Delete(user); }
+    public ResponseFormat Delete(@RequestBody User user) {
+        boolean result = this.userService.Delete(user);
+        if(result) {
+            ResponseFormat responseFormat = new ResponseFormat(ResponseType.USER_DELETE, result, user.getId());
+            return responseFormat;
+        }
+        return new ResponseFormat(ResponseType.FAIL, null);
+    }
 
 }

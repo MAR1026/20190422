@@ -20,8 +20,8 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public Post Read(Post post) {
-        Optional<Post> found = this.postRepository.findById(post.getId());
+    public Post Read(Long userId) {
+        Optional<Post> found = this.postRepository.findTopByAccountOrderByIdDesc(userId);
         if(found.isPresent()){
             return found.get();
         } else
@@ -35,12 +35,12 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public Post Update(Post post) {
-        Post found = Read(post);
+        Post found = this.postRepository.findById(post.getId()).get();
 
         if(found != null) {
             found.setTitle(Optional.ofNullable(post.getTitle()).orElse(found.getTitle()));
             found.setContent(Optional.ofNullable(post.getContent()).orElse(found.getContent()));
-            found.setPicturePath(Optional.ofNullable(post.getPicturePath()).orElse(found.getPicturePath()));
+            found.setPictures(Optional.ofNullable(post.getPictures()).orElse(found.getPictures()));
 
             return this.postRepository.save(found);
         } else
@@ -48,12 +48,12 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public boolean Delete(Post post) {
-        Post found = Read(post);
-        if(found != null){
-            this.postRepository.deleteById(found.getId());
+    public boolean Delete(Long postId) {
+        try {
+            this.postRepository.deleteById(postId);
             return true;
+        } catch (Exception e) {
+            return false;
         }
-        return false;
     }
 }

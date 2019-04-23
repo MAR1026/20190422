@@ -6,10 +6,10 @@ import java.util.List;
 
 public interface PostService {
     Post Create(Post post);
-    Post Read(Post post);
+    Post Read(Long userId);
     List<Post> ReadAll();
     Post Update(Post post);
-    boolean Delete(Post post);
+    boolean Delete(Long postId);
 
 
 }
