@@ -20,13 +20,24 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public Post Read(Long userId) {
-        Optional<Post> found = this.postRepository.findTopByAccountOrderByIdDesc(userId);
+    public Post Read(Long id) {
+        Optional<Post> found = this.postRepository.findById(id);
+        // this.postRepository.findTopByAccountOrderByCreatedDesc(userId);
         if(found.isPresent()){
             return found.get();
         } else
             return null;
     }
+
+    @Override
+    public Post ReadByAccount(String userId) {
+        Optional<Post> found = this.postRepository.findTopByAccountOrderByCreatedDesc(userId);
+        if(found.isPresent()){
+            return found.get();
+        } else
+            return null;
+    }
+
 
     @Override
     public List<Post> ReadAll() {

@@ -26,8 +26,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User Read(User user) {
-        Optional<User> found = this.userRepository.findByAccount(user.getAccount());
+    public User Read(String account) {
+        Optional<User> found = this.userRepository.findByAccount(account);
         if(found.isPresent()){
             return found.get();
         } else
@@ -41,7 +41,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User Update(User user) {
-        User found = Read(user);
+        User found = Read(user.getAccount());
 
         if(found != null) {
             found.setName(Optional.ofNullable(user.getName()).orElse(found.getName()));
@@ -56,7 +56,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean Delete(User user) {
-        User found = Read(user);
+        User found = Read(user.getAccount());
         if(found != null){
             this.userRepository.deleteById(found.getId());
             return true;

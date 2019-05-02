@@ -26,9 +26,9 @@ public class UserController {
         return new ResponseFormat(ResponseType.FAIL, null);
     }
 
-    @GetMapping("/user/read")
-    public ResponseFormat Read(@RequestBody User user) {
-        User result = this.userService.Read(user);
+    @GetMapping("/user/read/{account}")
+    public ResponseFormat Read(@PathVariable String account) {
+        User result = this.userService.Read(account);
         if(result != null) {
             ResponseFormat responseFormat = new ResponseFormat(ResponseType.USER_GET, result, result.getId());
             return responseFormat;

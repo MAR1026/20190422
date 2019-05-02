@@ -7,5 +7,5 @@ import java.util.Optional;
 
 public interface PostRepository extends JpaRepository<Post, Long> {
 
-    Optional<Post> findTopByAccountOrderByIdDesc(Long userId);
+    Optional<Post> findTopByAccountOrderByCreatedDesc(String userId);
 }

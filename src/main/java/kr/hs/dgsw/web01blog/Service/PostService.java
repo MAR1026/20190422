@@ -6,7 +6,8 @@ import java.util.List;
 
 public interface PostService {
     Post Create(Post post);
-    Post Read(Long userId);
+    Post Read(Long id);
+    Post ReadByAccount(String userId);
     List<Post> ReadAll();
     Post Update(Post post);
     boolean Delete(Long postId);

@@ -16,17 +16,35 @@ public class PostController {
     private PostService postService;
 
     @GetMapping("/post/readall")
-    public List<Post> ReadAll() {
-        return this.postService.ReadAll();
+    public ResponseFormat ReadAll() {
+
+        List<Post> result = this.postService.ReadAll();
+        if(result != null) {
+            ResponseFormat responseFormat = new ResponseFormat(ResponseType.POST_GET, result, "전체 글 목록");
+            return  responseFormat;
+        }
+
+        return new ResponseFormat(ResponseType.FAIL, null);
     }
 
-    @GetMapping("/post/read/{userid}")
-    public ResponseFormat Read(@PathVariable Long userId) {
 
-        Post result = this.postService.Read(userId);
+    @GetMapping("/post/read/{id}")
+    public ResponseFormat Read(@PathVariable Long id) {
 
+        Post result = this.postService.Read(id);
         if(result != null) {
             ResponseFormat responseFormat = new ResponseFormat(ResponseType.POST_GET, result);
+            return responseFormat;
+        }
+
+        return new ResponseFormat(ResponseType.FAIL, null);
+    }
+
+    @GetMapping("post/readByAccount/{account}")
+    public ResponseFormat ReadByAccount(@PathVariable String account) {
+        Post result = this.postService.ReadByAccount(account);
+        if(result != null) {
+            ResponseFormat responseFormat = new ResponseFormat(ResponseType.POST_GET, result, "유저 아이디로 포스트 검색");
             return responseFormat;
         }
 
@@ -57,9 +75,9 @@ public class PostController {
         return new ResponseFormat(ResponseType.FAIL, null);
     }
 
-    @DeleteMapping("/post/delete/{userid}")
-    public ResponseFormat Delete(@PathVariable Long postId) {
-        boolean result = this.postService.Delete(postId);
+    @DeleteMapping("/post/delete/{postid}")
+    public ResponseFormat Delete(@PathVariable Long postid) {
+        boolean result = this.postService.Delete(postid);
         if(result) {
             ResponseFormat responseFormat = new ResponseFormat(ResponseType.POST_DELETE, result);
             return responseFormat;
